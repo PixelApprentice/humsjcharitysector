@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { ImpactGrid } from './components/ImpactGrid';
 import { BlogSection } from './components/BlogSection';
 import { TrustSection } from './components/TrustSection';
 import { Footer } from './components/Footer';
-import { AdminPanel } from './components/AdminPanel';
+import { AdminPanelFirebase } from './components/AdminPanelFirebase';
+import { AdminLogin } from './components/AdminLogin';
 import { Lock } from 'lucide-react';
+import { auth } from './firebase/config';
 
 interface BlogPost {
   id: number;
@@ -22,10 +24,25 @@ interface BlogPost {
 
 export default function App() {
   const [currentLanguage, setCurrentLanguage] = useState('en');
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return localStorage.getItem('darkMode') === 'true';
+    }
+    return false;
+  });
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
-  const [adminPassword, setAdminPassword] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [currentUser, setCurrentUser] = useState<any>(null);
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', isDarkMode.toString());
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
+
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([
     {
       id: 1,
@@ -84,33 +101,27 @@ export default function App() {
     setBlogPosts(blogPosts.filter(post => post.id !== id));
   };
 
-  const handleAdminLogin = () => {
-    // Simple password check - in production, this should be done server-side
-    if (adminPassword === 'humsj2025') {
-      setIsAuthenticated(true);
-      setShowAdminLogin(false);
-      setShowAdminPanel(true);
-      setAdminPassword('');
-    } else {
-      alert('Incorrect password!');
-      setAdminPassword('');
-    }
+  const handleAdminAccess = () => {
+    setShowAdminLogin(true);
   };
 
-  const handleAdminAccess = () => {
-    if (!isAuthenticated) {
-      setShowAdminLogin(true);
-    } else {
-      setShowAdminPanel(true);
-    }
+  const handleLoginSuccess = (user: any) => {
+    setCurrentUser(user);
+    setShowAdminLogin(false);
+    setShowAdminPanel(true);
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    setShowAdminPanel(false);
   };
 
   return (
-    <div className="min-h-screen islamic-pattern">
+    <div className={`min-h-screen islamic-pattern ${isDarkMode ? 'dark bg-gray-900' : ''}`}>
       {/* Admin Access Button */}
       <button
         onClick={handleAdminAccess}
-        className="fixed bottom-6 right-6 z-40 p-4 bg-[#004d40] text-white rounded-full shadow-lg hover:bg-[#00695c] transition-all hover:scale-110"
+        className="fixed bottom-6 right-6 z-40 p-4 bg-[#004d40] text-white rounded-full shadow-lg hover:bg-[#00695c] transition-all hover:scale-110 dark:shadow-lg dark:shadow-black/50"
         title="Admin Panel"
         style={{ opacity: 0.3 }}
         onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
@@ -121,64 +132,23 @@ export default function App() {
 
       {/* Admin Login Modal */}
       {showAdminLogin && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="glass-card rounded-2xl p-8 max-w-md w-full">
-            <h3 className="text-2xl font-bold text-[#004d40] mb-6">Admin Login</h3>
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  value={adminPassword}
-                  onChange={(e) => setAdminPassword(e.target.value)}
-                  onKeyPress={(e) => e.key === 'Enter' && handleAdminLogin()}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#004d40]"
-                  placeholder="Enter admin password"
-                  autoFocus
-                />
-              </div>
-              <div className="flex gap-3">
-                <button
-                  onClick={handleAdminLogin}
-                  className="flex-1 px-6 py-3 bg-[#004d40] text-white rounded-lg hover:bg-[#00695c] transition-colors font-semibold"
-                >
-                  Login
-                </button>
-                <button
-                  onClick={() => {
-                    setShowAdminLogin(false);
-                    setAdminPassword('');
-                  }}
-                  className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
-                >
-                  Cancel
-                </button>
-              </div>
-              <p className="text-xs text-gray-500 text-center mt-4">
-                Hint: Password is humsj2025
-              </p>
-            </div>
-          </div>
-        </div>
+        <AdminLogin onLoginSuccess={handleLoginSuccess} />
       )}
 
       {/* Admin Panel */}
-      {showAdminPanel && (
-        <AdminPanel
-          posts={blogPosts}
-          onAddPost={handleAddPost}
-          onEditPost={handleEditPost}
-          onDeletePost={handleDeletePost}
-          onClose={() => setShowAdminPanel(false)}
+      {showAdminPanel && currentUser && (
+        <AdminPanelFirebase
+          user={currentUser}
+          onLogout={handleLogout}
         />
       )}
 
       {/* Main Content */}
       <Navbar 
         currentLanguage={currentLanguage} 
-        onLanguageChange={handleLanguageChange} 
+        onLanguageChange={handleLanguageChange}
+        isDarkMode={isDarkMode}
+        onDarkModeChange={setIsDarkMode}
       />
       
       <main>

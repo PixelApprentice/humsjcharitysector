@@ -1,12 +1,14 @@
-import { Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { Menu, X, Moon, Sun } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 interface NavbarProps {
   currentLanguage: string;
   onLanguageChange: (lang: string) => void;
+  isDarkMode: boolean;
+  onDarkModeChange: (isDark: boolean) => void;
 }
 
-export function Navbar({ currentLanguage, onLanguageChange }: NavbarProps) {
+export function Navbar({ currentLanguage, onLanguageChange, isDarkMode, onDarkModeChange }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [langDropdownOpen, setLangDropdownOpen] = useState(false);
 
@@ -42,18 +44,27 @@ export function Navbar({ currentLanguage, onLanguageChange }: NavbarProps) {
 
           {/* Right Side Actions */}
           <div className="hidden md:flex items-center gap-4">
+            {/* Dark Mode Toggle */}
+            <button
+              onClick={() => onDarkModeChange(!isDarkMode)}
+              className="p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+              title={isDarkMode ? 'Light mode' : 'Dark mode'}
+            >
+              {isDarkMode ? <Sun size={20} className="text-yellow-500" /> : <Moon size={20} className="text-gray-700" />}
+            </button>
+
             {/* Language Switcher */}
             <div className="relative">
               <button
                 onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg glass-card hover:border-[#004d40] transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg glass-card hover:border-[#004d40] transition-colors dark:text-white"
               >
                 <span>{currentLang.flag}</span>
                 <span className="text-sm">{currentLang.name}</span>
               </button>
               
               {langDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 glass-card rounded-lg shadow-xl py-2">
+                <div className="absolute right-0 mt-2 w-48 glass-card dark:bg-gray-800 rounded-lg shadow-xl py-2 z-50">
                   {languages.map((lang) => (
                     <button
                       key={lang.code}
@@ -61,8 +72,8 @@ export function Navbar({ currentLanguage, onLanguageChange }: NavbarProps) {
                         onLanguageChange(lang.code);
                         setLangDropdownOpen(false);
                       }}
-                      className={`w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 transition-colors ${
-                        currentLanguage === lang.code ? 'bg-[#004d40]/10' : ''
+                      className={`w-full flex items-center gap-3 px-4 py-2 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors dark:text-white ${
+                        currentLanguage === lang.code ? 'bg-[#004d40]/10 dark:bg-[#004d40]/30' : ''
                       }`}
                     >
                       <span>{lang.flag}</span>
@@ -81,12 +92,21 @@ export function Navbar({ currentLanguage, onLanguageChange }: NavbarProps) {
             </a>
           </div>
 
+          {/* Dark Mode Toggle (Mobile) */}
+          <button
+            onClick={() => onDarkModeChange(!isDarkMode)}
+            className="md:hidden p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
+            title={isDarkMode ? 'Light mode' : 'Dark mode'}
+          >
+            {isDarkMode ? <Sun size={20} className="text-yellow-500" /> : <Moon size={20} className="text-gray-700" />}
+          </button>
+
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden p-2 rounded-lg hover:bg-gray-100"
+            className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileMenuOpen ? <X size={24} className="dark:text-white" /> : <Menu size={24} className="dark:text-white" />}
           </button>
         </div>
 
