@@ -17,7 +17,7 @@ export function Footer({ language }: FooterProps) {
       address: "Addis Ababa, Ethiopia",
       phone: "+251 912 345 678",
       email: "info@humsjcharity.org",
-      copyright: "© 2024 Humsj Charity. All rights reserved.",
+      copyright: "© 2025 Humsj Charity. All rights reserved.",
       links: {
         about: "About Us",
         projects: "Our Projects",
@@ -38,7 +38,7 @@ export function Footer({ language }: FooterProps) {
       address: "አዲስ አበባ፣ ኢትዮጵያ",
       phone: "+251 912 345 678",
       email: "info@humsjcharity.org",
-      copyright: "© 2024 የሁምስጅ በጎ አድራጎት። ሁሉም መብቶች የተጠበቁ ናቸው።",
+      copyright: "© 2025 የሁምስጅ በጎ አድራጎት። ሁሉም መብቶች የተጠበቁ ናቸው።",
       links: {
         about: "ስለእኛ",
         projects: "የእኛ ፕሮጀክቶች",
@@ -59,7 +59,7 @@ export function Footer({ language }: FooterProps) {
       address: "Finfinnee, Itoophiyaa",
       phone: "+251 912 345 678",
       email: "info@humsjcharity.org",
-      copyright: "© 2024 Humsj Charity. Mirgi hundi kan eegamedha.",
+      copyright: "© 2025 Humsj Charity. Mirgi hundi kan eegamedha.",
       links: {
         about: "Waa'ee Keenyaa",
         projects: "Pirojektoota Keenyaa",
@@ -80,7 +80,7 @@ export function Footer({ language }: FooterProps) {
       address: "أديس أبابا، إثيوبيا",
       phone: "+251 912 345 678",
       email: "info@humsjcharity.org",
-      copyright: "© 2024 Humsj Charity. جميع الحقوق محفوظة.",
+      copyright: "© 2025 Humsj Charity. جميع الحقوق محفوظة.",
       links: {
         about: "معلومات عنا",
         projects: "مشاريعنا",

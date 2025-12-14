@@ -144,7 +144,7 @@ export function TrustSection({ language }: TrustSectionProps) {
   const percentage = (raised / goal) * 100;
 
   return (
-    <section className="py-20 bg-white">
+    <section id="donate" className="py-20 bg-white islamic-pattern">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-[#004d40] mb-4">{t.title}</h2>
@@ -171,7 +171,7 @@ export function TrustSection({ language }: TrustSectionProps) {
         </div>
 
         {/* Donation Tracker */}
-        <div className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-8 mb-16 border border-gray-200">
+        <div className="glass-card rounded-2xl p-8 mb-16">
           <h3 className="text-[#004d40] mb-6 text-center">{t.donationTracker}</h3>
           
           <div className="mb-4">
@@ -217,7 +217,7 @@ export function TrustSection({ language }: TrustSectionProps) {
             {t.testimonials.map((testimonial, index) => (
               <div
                 key={index}
-                className="bg-gradient-to-br from-gray-50 to-white rounded-2xl p-6 border border-gray-200 hover:border-[#004d40] transition-all hover:shadow-lg"
+                className="glass-card rounded-2xl p-6 hover:border-[#004d40] transition-all hover:shadow-lg"
               >
                 <Quote className="text-[#ffd700] mb-4" size={32} />
                 <p className="text-gray-700 mb-6 italic">

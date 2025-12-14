@@ -20,7 +20,7 @@ export function Navbar({ currentLanguage, onLanguageChange }: NavbarProps) {
   const currentLang = languages.find(l => l.code === currentLanguage) || languages[0];
 
   return (
-    <nav className="sticky top-0 z-50 bg-white/95 backdrop-blur-sm shadow-md">
+    <nav className="sticky top-0 z-50 glass shadow-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           {/* Logo */}
@@ -33,11 +33,11 @@ export function Navbar({ currentLanguage, onLanguageChange }: NavbarProps) {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            <a href="#home" className="text-gray-700 hover:text-[#004d40] transition-colors">Home</a>
-            <a href="#about" className="text-gray-700 hover:text-[#004d40] transition-colors">About</a>
-            <a href="#projects" className="text-gray-700 hover:text-[#004d40] transition-colors">Projects</a>
-            <a href="#blog" className="text-gray-700 hover:text-[#004d40] transition-colors">Blog</a>
-            <a href="#volunteer" className="text-gray-700 hover:text-[#004d40] transition-colors">Volunteer</a>
+            <a href="#home" className="text-gray-700 hover:text-[#004d40] transition-colors font-medium">Home</a>
+            <a href="#about" className="text-gray-700 hover:text-[#004d40] transition-colors font-medium">About</a>
+            <a href="#projects" className="text-gray-700 hover:text-[#004d40] transition-colors font-medium">Projects</a>
+            <a href="#blog" className="text-gray-700 hover:text-[#004d40] transition-colors font-medium">Blog</a>
+            <a href="#volunteer" className="text-gray-700 hover:text-[#004d40] transition-colors font-medium">Volunteer</a>
           </div>
 
           {/* Right Side Actions */}
@@ -46,14 +46,14 @@ export function Navbar({ currentLanguage, onLanguageChange }: NavbarProps) {
             <div className="relative">
               <button
                 onClick={() => setLangDropdownOpen(!langDropdownOpen)}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg border border-gray-300 hover:border-[#004d40] transition-colors"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg glass-card hover:border-[#004d40] transition-colors"
               >
                 <span>{currentLang.flag}</span>
                 <span className="text-sm">{currentLang.name}</span>
               </button>
               
               {langDropdownOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-200 py-2">
+                <div className="absolute right-0 mt-2 w-48 glass-card rounded-lg shadow-xl py-2">
                   {languages.map((lang) => (
                     <button
                       key={lang.code}
@@ -74,9 +74,11 @@ export function Navbar({ currentLanguage, onLanguageChange }: NavbarProps) {
             </div>
 
             {/* Donate Button */}
-            <button className="btn-primary">
-              Donate Now
-            </button>
+            <a href="#donate">
+              <button className="btn-primary">
+                Donate Now
+              </button>
+            </a>
           </div>
 
           {/* Mobile Menu Button */}

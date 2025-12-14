@@ -151,7 +151,7 @@ export function ImpactGrid({ language }: ImpactGridProps) {
   const t = content[language as keyof typeof content] || content.en;
 
   return (
-    <section id="projects" className="py-20 bg-white">
+    <section id="projects" className="py-20 bg-white islamic-pattern">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <h2 className="text-[#004d40] mb-4">{t.title}</h2>
@@ -165,7 +165,7 @@ export function ImpactGrid({ language }: ImpactGridProps) {
             return (
               <div
                 key={index}
-                className="group relative bg-gradient-to-br from-gray-50 to-white rounded-2xl overflow-hidden border border-gray-200 hover:border-[#004d40] transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
+                className="group relative glass-card rounded-2xl overflow-hidden hover:border-[#004d40] transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
               >
                 {/* Image Background */}
                 <div className="relative h-48 overflow-hidden">

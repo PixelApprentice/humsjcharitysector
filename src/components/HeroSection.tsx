@@ -68,16 +68,16 @@ export function HeroSection({ language }: HeroSectionProps) {
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-gray-200">
-              <div>
+            <div className="grid grid-cols-3 gap-6 mt-12 pt-8">
+              <div className="glass-card rounded-xl p-4 hover:scale-105 transition-transform">
                 <div className="text-3xl font-bold text-[#004d40]">500+</div>
                 <div className="text-sm text-gray-600">Families Helped</div>
               </div>
-              <div>
+              <div className="glass-card rounded-xl p-4 hover:scale-105 transition-transform">
                 <div className="text-3xl font-bold text-[#004d40]">15+</div>
                 <div className="text-sm text-gray-600">Active Projects</div>
               </div>
-              <div>
+              <div className="glass-card rounded-xl p-4 hover:scale-105 transition-transform">
                 <div className="text-3xl font-bold text-[#004d40]">100%</div>
                 <div className="text-sm text-gray-600">Transparency</div>
               </div>

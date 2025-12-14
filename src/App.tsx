@@ -23,6 +23,9 @@ interface BlogPost {
 export default function App() {
   const [currentLanguage, setCurrentLanguage] = useState('en');
   const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [showAdminLogin, setShowAdminLogin] = useState(false);
+  const [adminPassword, setAdminPassword] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([
     {
       id: 1,
@@ -32,7 +35,7 @@ export default function App() {
       excerptAm: "ለ200 በላይ ቤተሰቦች ንጹህ ውሃ የሚያመጣ የቅርብ ጊዜ የውሃ ጉድጓድ ፕሮጀክታችንን ማስጀመራችንን በደስታ እናሳውቃለን።",
       category: "Charity",
       image: "https://images.unsplash.com/photo-1760873059715-7c7cfbe2a2c6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx3YXRlciUyMHdlbGwlMjBBZnJpY2ElMjBjb21tdW5pdHl8ZW58MXx8fHwxNzY1Njk2NTc5fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      date: "Dec 10, 2024",
+      date: "Jan 15, 2025",
       readTime: "4 min read"
     },
     {
@@ -43,7 +46,7 @@ export default function App() {
       excerptAm: "የቴክኖሎጂ ትምህርት ተነሳሽነታችን ከ50 በላይ ወጣቶችን በዲጂታል ክህሎቶች በተሳካ ሁኔታ በማሰልጠን ለአዳዲስ እድሎች በር ከፍቷል።",
       category: "Tech",
       image: "https://images.unsplash.com/photo-1569098644581-b97f9c091fa8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxsYXB0b3AlMjBjb2RpbmclMjBlZHVjYXRpb258ZW58MXx8fHwxNzY1Njk2NTgwfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      date: "Dec 8, 2024",
+      date: "Jan 10, 2025",
       readTime: "5 min read"
     },
     {
@@ -54,7 +57,7 @@ export default function App() {
       excerptAm: "ዓመታዊ የማህበረሰብ እፍጠር ዝግጅታችን በኡማህ መካከል አንድነትን እና ርህራሄን በማጎልበት ከፍተኛ ስኬት ነበር።",
       category: "Community",
       image: "https://images.unsplash.com/photo-1623458696277-a6f4bcd06c2f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxJc2xhbWljJTIwZWR1Y2F0aW9uJTIwc3R1ZGVudHMlMjBib29rc3xlbnwxfHx8fDE3NjU2OTY1Nzl8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      date: "Dec 5, 2024",
+      date: "Jan 5, 2025",
       readTime: "3 min read"
     }
   ]);
@@ -81,16 +84,85 @@ export default function App() {
     setBlogPosts(blogPosts.filter(post => post.id !== id));
   };
 
+  const handleAdminLogin = () => {
+    // Simple password check - in production, this should be done server-side
+    if (adminPassword === 'humsj2025') {
+      setIsAuthenticated(true);
+      setShowAdminLogin(false);
+      setShowAdminPanel(true);
+      setAdminPassword('');
+    } else {
+      alert('Incorrect password!');
+      setAdminPassword('');
+    }
+  };
+
+  const handleAdminAccess = () => {
+    if (!isAuthenticated) {
+      setShowAdminLogin(true);
+    } else {
+      setShowAdminPanel(true);
+    }
+  };
+
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen islamic-pattern">
       {/* Admin Access Button */}
       <button
-        onClick={() => setShowAdminPanel(true)}
+        onClick={handleAdminAccess}
         className="fixed bottom-6 right-6 z-40 p-4 bg-[#004d40] text-white rounded-full shadow-lg hover:bg-[#00695c] transition-all hover:scale-110"
         title="Admin Panel"
+        style={{ opacity: 0.3 }}
+        onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
+        onMouseLeave={(e) => e.currentTarget.style.opacity = '0.3'}
       >
         <Lock size={24} />
       </button>
+
+      {/* Admin Login Modal */}
+      {showAdminLogin && (
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="glass-card rounded-2xl p-8 max-w-md w-full">
+            <h3 className="text-2xl font-bold text-[#004d40] mb-6">Admin Login</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleAdminLogin()}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#004d40]"
+                  placeholder="Enter admin password"
+                  autoFocus
+                />
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={handleAdminLogin}
+                  className="flex-1 px-6 py-3 bg-[#004d40] text-white rounded-lg hover:bg-[#00695c] transition-colors font-semibold"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => {
+                    setShowAdminLogin(false);
+                    setAdminPassword('');
+                  }}
+                  className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+                >
+                  Cancel
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 text-center mt-4">
+                Hint: Password is humsj2025
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Admin Panel */}
       {showAdminPanel && (
