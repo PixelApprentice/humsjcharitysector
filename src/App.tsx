@@ -1,6 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Navbar } from './components/Navbar';
-import { HeroSection } from './components/HeroSection';
+import { ExternalAffairsHero } from './components/ExternalAffairsHero';
+import { SectorCards } from './components/SectorCards';
+import { LeadershipSection } from './components/LeadershipSection';
+import { QiratSection } from './components/QiratSection';
+import { DawaSection } from './components/DawaSection';
 import { ImpactGrid } from './components/ImpactGrid';
 import { BlogSection } from './components/BlogSection';
 import { TrustSection } from './components/TrustSection';
@@ -24,24 +28,9 @@ interface BlogPost {
 
 export default function App() {
   const [currentLanguage, setCurrentLanguage] = useState('en');
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    if (typeof window !== 'undefined') {
-      return localStorage.getItem('darkMode') === 'true';
-    }
-    return false;
-  });
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
   const [currentUser, setCurrentUser] = useState<any>(null);
-
-  useEffect(() => {
-    localStorage.setItem('darkMode', isDarkMode.toString());
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
 
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([
     {
@@ -92,7 +81,7 @@ export default function App() {
   };
 
   const handleEditPost = (id: number, updatedPost: Omit<BlogPost, 'id'>) => {
-    setBlogPosts(blogPosts.map(post => 
+    setBlogPosts(blogPosts.map(post =>
       post.id === id ? { ...updatedPost, id } : post
     ));
   };
@@ -117,7 +106,7 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen islamic-pattern ${isDarkMode ? 'dark bg-gray-900' : ''}`}>
+    <div className="min-h-screen islamic-pattern">
       {/* Admin Access Button */}
       <button
         onClick={handleAdminAccess}
@@ -144,22 +133,36 @@ export default function App() {
       )}
 
       {/* Main Content */}
-      <Navbar 
-        currentLanguage={currentLanguage} 
+      <Navbar
+        currentLanguage={currentLanguage}
         onLanguageChange={handleLanguageChange}
-        isDarkMode={isDarkMode}
-        onDarkModeChange={setIsDarkMode}
       />
-      
+
       <main>
-        <HeroSection language={currentLanguage} />
-        
-        <ImpactGrid language={currentLanguage} />
-        
+        {/* External Affairs Hero */}
+        <ExternalAffairsHero language={currentLanguage} />
+
+        {/* Three Sectors Overview */}
+        <SectorCards language={currentLanguage} />
+
+        {/* Leadership Section */}
+        <LeadershipSection language={currentLanguage} />
+
+        {/* Qirat Sector Detail */}
+        <QiratSection language={currentLanguage} />
+
+        {/* Charity Sector (Impact Grid + Trust Section) */}
+        <section id="charity" className="scroll-mt-20">
+          <ImpactGrid language={currentLanguage} />
+          <TrustSection language={currentLanguage} />
+        </section>
+
+        {/* Dawa Sector Detail */}
+        <DawaSection language={currentLanguage} />
+
+        {/* Blog/Events Section */}
         <BlogSection language={currentLanguage} posts={blogPosts} />
-        
-        <TrustSection language={currentLanguage} />
-        
+
         {/* About Section */}
         <section id="about" className="py-20 bg-white islamic-pattern-overlay">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -179,9 +182,9 @@ export default function App() {
               <div className="inline-block px-6 py-3 bg-[#004d40]/10 rounded-lg">
                 <p className="text-[#004d40]">
                   <span className="font-semibold">Telegram:</span>{' '}
-                  <a 
-                    href="https://t.me/humsj_charity" 
-                    target="_blank" 
+                  <a
+                    href="https://t.me/humsj_charity"
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="hover:text-[#00695c] underline"
                   >
