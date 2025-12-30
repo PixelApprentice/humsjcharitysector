@@ -1,18 +1,15 @@
 import { useState } from 'react';
 import { Navbar } from './components/Navbar';
-import { ExternalAffairsHero } from './components/ExternalAffairsHero';
-import { SectorCards } from './components/SectorCards';
+import { HeroSection } from './components/HeroSection';
+import { AboutSection } from './components/AboutSection';
 import { LeadershipSection } from './components/LeadershipSection';
-import { QiratSection } from './components/QiratSection';
-import { DawaSection } from './components/DawaSection';
+import { SectorDashboards } from './components/SectorDashboards';
 import { ImpactGrid } from './components/ImpactGrid';
 import { BlogSection } from './components/BlogSection';
 import { TrustSection } from './components/TrustSection';
 import { Footer } from './components/Footer';
-import { AdminPanelFirebase } from './components/AdminPanelFirebase';
-import { AdminLogin } from './components/AdminLogin';
+import { AdminDashboard } from './components/AdminDashboard';
 import { Lock } from 'lucide-react';
-import { auth } from './firebase/config';
 
 interface BlogPost {
   id: number;
@@ -30,8 +27,8 @@ export default function App() {
   const [currentLanguage, setCurrentLanguage] = useState('en');
   const [showAdminPanel, setShowAdminPanel] = useState(false);
   const [showAdminLogin, setShowAdminLogin] = useState(false);
-  const [currentUser, setCurrentUser] = useState<any>(null);
-
+  const [adminPassword, setAdminPassword] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [blogPosts, setBlogPosts] = useState<BlogPost[]>([
     {
       id: 1,
@@ -81,7 +78,7 @@ export default function App() {
   };
 
   const handleEditPost = (id: number, updatedPost: Omit<BlogPost, 'id'>) => {
-    setBlogPosts(blogPosts.map(post =>
+    setBlogPosts(blogPosts.map(post => 
       post.id === id ? { ...updatedPost, id } : post
     ));
   };
@@ -90,19 +87,25 @@ export default function App() {
     setBlogPosts(blogPosts.filter(post => post.id !== id));
   };
 
+  const handleAdminLogin = () => {
+    // Simple password check - in production, this should be done server-side
+    if (adminPassword === 'humsj2025') {
+      setIsAuthenticated(true);
+      setShowAdminLogin(false);
+      setShowAdminPanel(true);
+      setAdminPassword('');
+    } else {
+      alert('Incorrect password!');
+      setAdminPassword('');
+    }
+  };
+
   const handleAdminAccess = () => {
-    setShowAdminLogin(true);
-  };
-
-  const handleLoginSuccess = (user: any) => {
-    setCurrentUser(user);
-    setShowAdminLogin(false);
-    setShowAdminPanel(true);
-  };
-
-  const handleLogout = () => {
-    setCurrentUser(null);
-    setShowAdminPanel(false);
+    if (!isAuthenticated) {
+      setShowAdminLogin(true);
+    } else {
+      setShowAdminPanel(true);
+    }
   };
 
   return (
@@ -110,7 +113,7 @@ export default function App() {
       {/* Admin Access Button */}
       <button
         onClick={handleAdminAccess}
-        className="fixed bottom-6 right-6 z-40 p-4 bg-[#004d40] text-white rounded-full shadow-lg hover:bg-[#00695c] transition-all hover:scale-110 dark:shadow-lg dark:shadow-black/50"
+        className="fixed bottom-6 right-6 z-40 p-4 bg-[#004d40] text-white rounded-full shadow-lg hover:bg-[#00695c] transition-all hover:scale-110"
         title="Admin Panel"
         style={{ opacity: 0.3 }}
         onMouseEnter={(e) => e.currentTarget.style.opacity = '1'}
@@ -121,50 +124,83 @@ export default function App() {
 
       {/* Admin Login Modal */}
       {showAdminLogin && (
-        <AdminLogin onLoginSuccess={handleLoginSuccess} />
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="glass-card rounded-2xl p-8 max-w-md w-full">
+            <h3 className="text-2xl font-bold text-[#004d40] mb-6">Admin Login</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Password
+                </label>
+                <input
+                  type="password"
+                  value={adminPassword}
+                  onChange={(e) => setAdminPassword(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && handleAdminLogin()}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-[#004d40]"
+                  placeholder="Enter admin password"
+                  autoFocus
+                />
+              </div>
+              <div className="flex gap-3">
+                <button
+                  onClick={handleAdminLogin}
+                  className="flex-1 px-6 py-3 bg-[#004d40] text-white rounded-lg hover:bg-[#00695c] transition-colors font-semibold"
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => {
+                    setShowAdminLogin(false);
+                    setAdminPassword('');
+                  }}
+                  className="px-6 py-3 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-semibold"
+                >
+                  Cancel
+                </button>
+              </div>
+              <p className="text-xs text-gray-500 text-center mt-4">
+                Hint: Password is humsj2025
+              </p>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* Admin Panel */}
-      {showAdminPanel && currentUser && (
-        <AdminPanelFirebase
-          user={currentUser}
-          onLogout={handleLogout}
+      {showAdminPanel && (
+        <AdminDashboard
+          posts={blogPosts}
+          onAddPost={handleAddPost}
+          onEditPost={handleEditPost}
+          onDeletePost={handleDeletePost}
+          onClose={() => setShowAdminPanel(false)}
         />
       )}
 
       {/* Main Content */}
-      <Navbar
-        currentLanguage={currentLanguage}
-        onLanguageChange={handleLanguageChange}
+      <Navbar 
+        currentLanguage={currentLanguage} 
+        onLanguageChange={handleLanguageChange} 
       />
-
+      
       <main>
-        {/* External Affairs Hero */}
-        <ExternalAffairsHero language={currentLanguage} />
-
-        {/* Three Sectors Overview */}
-        <SectorCards language={currentLanguage} />
-
-        {/* Leadership Section */}
+        <HeroSection language={currentLanguage} />
+        
+        <AboutSection language={currentLanguage} />
+        
         <LeadershipSection language={currentLanguage} />
-
-        {/* Qirat Sector Detail */}
-        <QiratSection language={currentLanguage} />
-
-        {/* Charity Sector (Impact Grid + Trust Section) */}
-        <section id="charity" className="scroll-mt-20">
-          <ImpactGrid language={currentLanguage} />
-          <TrustSection language={currentLanguage} />
-        </section>
-
-        {/* Dawa Sector Detail */}
-        <DawaSection language={currentLanguage} />
-
-        {/* Blog/Events Section */}
+        
+        <SectorDashboards language={currentLanguage} />
+        
+        <ImpactGrid language={currentLanguage} />
+        
         <BlogSection language={currentLanguage} posts={blogPosts} />
-
+        
+        <TrustSection language={currentLanguage} />
+        
         {/* About Section */}
-        <section id="about" className="py-20 bg-white islamic-pattern-overlay scroll-mt-20">
+        <section id="about" className="py-20 bg-white islamic-pattern-overlay">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-[#004d40] mb-6">
@@ -182,9 +218,9 @@ export default function App() {
               <div className="inline-block px-6 py-3 bg-[#004d40]/10 rounded-lg">
                 <p className="text-[#004d40]">
                   <span className="font-semibold">Telegram:</span>{' '}
-                  <a
-                    href="https://t.me/humsj_charity"
-                    target="_blank"
+                  <a 
+                    href="https://t.me/humsj_charity" 
+                    target="_blank" 
                     rel="noopener noreferrer"
                     className="hover:text-[#00695c] underline"
                   >

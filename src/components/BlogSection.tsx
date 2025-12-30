@@ -102,7 +102,7 @@ export function BlogSection({ language, posts }: BlogSectionProps) {
                       alt={post.title}
                       className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#004d40]/80 via-[#004d40]/40 to-transparent"></div>
                     
                     {/* Category Badge */}
                     <div className="absolute top-4 left-4 px-3 py-1 bg-[#004d40] rounded-full">

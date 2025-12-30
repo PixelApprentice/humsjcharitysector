@@ -1,4 +1,5 @@
-import { Shield, TrendingUp, Users, Quote } from 'lucide-react';
+import { Shield, TrendingUp, Users, Quote, Heart, Mail } from 'lucide-react';
+import { Phone } from 'lucide-react';
 
 interface TrustSectionProps {
   language: string;
@@ -12,7 +13,7 @@ export function TrustSection({ language }: TrustSectionProps) {
       donationTracker: "Monthly Donation Goal",
       raised: "Raised",
       goal: "Goal",
-      paymentMethods: "We Accept",
+      paymentTitle: "Payment Methods",
       testimonialsTitle: "Community Voices",
       testimonials: [
         {
@@ -44,7 +45,7 @@ export function TrustSection({ language }: TrustSectionProps) {
       donationTracker: "ወርሃዊ የልገሳ ግብ",
       raised: "ተሰብስቧል",
       goal: "ግብ",
-      paymentMethods: "እንቀበላለን",
+      paymentTitle: "የክፈት የመክፈል ደረጃዎች",
       testimonialsTitle: "የማህበረሰብ ድምጾች",
       testimonials: [
         {
@@ -76,7 +77,7 @@ export function TrustSection({ language }: TrustSectionProps) {
       donationTracker: "Galma Arjoomii Ji'aa",
       raised: "Walitti Qabame",
       goal: "Galma",
-      paymentMethods: "Ni Fudhanna",
+      paymentTitle: "Fudhannada",
       testimonialsTitle: "Sagalee Hawaasaa",
       testimonials: [
         {
@@ -108,7 +109,7 @@ export function TrustSection({ language }: TrustSectionProps) {
       donationTracker: "هدف التبرع الشهري",
       raised: "تم جمع",
       goal: "الهدف",
-      paymentMethods: "نقبل",
+      paymentTitle: "طرق الدفع",
       testimonialsTitle: "أصوات المجتمع",
       testimonials: [
         {
@@ -194,17 +195,118 @@ export function TrustSection({ language }: TrustSectionProps) {
           </div>
 
           {/* Payment Methods */}
-          <div className="mt-8">
-            <h4 className="text-center mb-4 text-gray-700">{t.paymentMethods}</h4>
-            <div className="flex justify-center items-center gap-6 flex-wrap">
-              <div className="px-6 py-3 bg-white rounded-lg border-2 border-[#004d40] font-semibold text-[#004d40]">
-                Telebirr
+          <div className="grid md:grid-cols-2 gap-8 mb-16">
+            <div className="glass-card rounded-2xl p-8">
+              <h3 className="text-2xl font-bold text-[#004d40] mb-6">{t.paymentTitle}</h3>
+              
+              {/* CBE Account */}
+              <div className="space-y-4">
+                <div className="bg-gradient-to-r from-[#004d40] to-[#00695c] rounded-xl p-6 text-white">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm opacity-90">Commercial Bank of Ethiopia</span>
+                    <div className="w-12 h-8 bg-white rounded flex items-center justify-center">
+                      <span className="text-[#004d40] font-bold text-xs">CBE</span>
+                    </div>
+                  </div>
+                  <div className="text-2xl font-bold tracking-wider mb-2">1000614307599</div>
+                  <div className="text-sm opacity-90">Account Number</div>
+                </div>
+
+                {/* E-Birr */}
+                <div className="bg-gradient-to-r from-amber-500 to-amber-600 rounded-xl p-6 text-white">
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm opacity-90">E-Birr Payment</span>
+                    <div className="w-12 h-8 bg-white rounded flex items-center justify-center">
+                      <span className="text-amber-600 font-bold text-xs">EB</span>
+                    </div>
+                  </div>
+                  <div className="text-2xl font-bold tracking-wider mb-2">0985736451</div>
+                  <div className="text-sm opacity-90">Phone Number</div>
+                </div>
               </div>
-              <div className="px-6 py-3 bg-white rounded-lg border-2 border-[#004d40] font-semibold text-[#004d40]">
-                CBE Birr
+
+              <div className="mt-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <p className="text-sm text-blue-900">
+                  <strong>Important:</strong> After making your donation, please send a screenshot of the transaction receipt to Muhajir Mohammed (Charity Sector Amir) at <strong>+251964544620</strong> via phone or Telegram for confirmation and receipt.
+                </p>
               </div>
-              <div className="px-6 py-3 bg-white rounded-lg border-2 border-[#004d40] font-semibold text-[#004d40]">
-                PayPal
+            </div>
+
+            {/* Contact Info for Donations */}
+            <div className="glass-card rounded-2xl p-8">
+              <h3 className="text-2xl font-bold text-[#004d40] mb-6">Donation Confirmation</h3>
+              
+              <div className="space-y-6">
+                <div>
+                  <p className="text-gray-700 mb-4">
+                    After making your donation, send the transaction screenshot to:
+                  </p>
+                  
+                  <div className="bg-gradient-to-br from-rose-50 to-rose-100 rounded-xl p-6 border border-rose-200">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-12 h-12 bg-gradient-to-br from-rose-500 to-rose-700 rounded-full flex items-center justify-center">
+                        <Heart className="text-white" size={24} />
+                      </div>
+                      <div>
+                        <p className="font-bold text-gray-900">Muhajir Mohammed</p>
+                        <p className="text-sm text-gray-600">Charity Sector Amir</p>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <a href="tel:+251964544620" className="flex items-center gap-2 text-gray-700 hover:text-rose-700 transition-colors">
+                        <Phone size={20} />
+                        <span className="text-xl font-bold">+251964544620</span>
+                      </a>
+                      <div className="flex items-center gap-2 text-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                          <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.14.18-.357.295-.6.295-.002 0-.003 0-.005 0l.213-3.054 5.56-5.022c.24-.213-.054-.334-.373-.121l-6.869 4.326-2.96-.924c-.64-.203-.658-.64.135-.954l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                        </svg>
+                        <span className="font-semibold">@MuhajirMohammed</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-amber-50 rounded-xl p-6 border border-amber-200">
+                  <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"/>
+                      <line x1="12" y1="16" x2="12" y2="12"/>
+                      <line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                    Website Status Notice
+                  </h4>
+                  <p className="text-sm text-gray-700 mb-2">
+                    <strong>humsj.org</strong> is currently under maintenance. For inquiries and updates, please:
+                  </p>
+                  <ul className="text-sm text-gray-700 space-y-1 ml-4">
+                    <li>• Join our Telegram channel: <a href="https://t.me/humsj_charity" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline font-semibold">@humsj_charity</a></li>
+                    <li>• Contact sector Amirs directly via phone</li>
+                  </ul>
+                </div>
+
+                <div className="bg-gradient-to-r from-green-50 to-green-100 rounded-xl p-6 border border-green-200">
+                  <h4 className="font-bold text-gray-900 mb-3">Why Your Donation Matters</h4>
+                  <ul className="space-y-2 text-sm text-gray-700">
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600 mt-1">✓</span>
+                      <span>100% transparency - every birr is tracked and reported</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600 mt-1">✓</span>
+                      <span>Direct impact on Ethiopian communities in need</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600 mt-1">✓</span>
+                      <span>Regular updates on project progress via Telegram</span>
+                    </li>
+                    <li className="flex items-start gap-2">
+                      <span className="text-green-600 mt-1">✓</span>
+                      <span>Barakah in helping the Ummah grow stronger</span>
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </div>

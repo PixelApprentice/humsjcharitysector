@@ -174,10 +174,10 @@ export function ImpactGrid({ language }: ImpactGridProps) {
                     alt={sector.title}
                     className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#004d40]/90 to-transparent"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#004d40] via-[#004d40]/60 to-[#004d40]/20"></div>
                   
                   {/* Icon */}
-                  <div className="absolute top-4 right-4 w-12 h-12 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                  <div className="absolute top-4 right-4 w-12 h-12 glass-dark rounded-full flex items-center justify-center">
                     <Icon className="text-white" size={24} />
                   </div>
 
