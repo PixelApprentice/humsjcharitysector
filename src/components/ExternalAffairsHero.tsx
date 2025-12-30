@@ -31,13 +31,39 @@ export function ExternalAffairsHero({ language }: ExternalAffairsHeroProps) {
             },
             learnMore: "ተጨማሪ ይወቁ",
             contactUs: "ያግኙን"
+        },
+        om: {
+            title: "Dhimma Alaa HUMSJ",
+            subtitle: "Ummaata Itoophiyaa Tajaajila Qindaa'aadhaan Humneessuu",
+            description: "Dameen Dhimma Alaa HUMSJ (Haramaya Muslim Student Jema'a) tajaajiloota sadii qindeessa: Qiraataa, Tola Ooltummaa fi Da'awaa. Nutinis gatiiwwan Islaamaatti osoo amanamnuu teekinooloojii fi mallawwan hogganinsa ammayyaa ni fayyadamna.",
+            stats: {
+                sectors: "Dameewwan Akatiivii",
+                families: "Maatiiwwan Gargaaraman",
+                students: "Barattoota Galmaa'an",
+                transparency: "Iftoomina"
+            },
+            learnMore: "Bal'inaan Baradhu",
+            contactUs: "Nu Quunnamaa"
+        },
+        ar: {
+            title: "الشؤون الخارجية لـ HUMSJ",
+            subtitle: "تمكين الأمة الإثيوبية من خلال خدمة منظمة",
+            description: "ينسق قطاع الشؤون الخارجية في HUMSJ ثلاثة مبادرات حيوية: القراءات، والأعمال الخيرية، والدعوة. نحن نستفيد من التكنولوجيا وأساليب التنظيم الحديثة مع الالتزام بالقيم الإسلامية.",
+            stats: {
+                sectors: "القطاعات النشطة",
+                families: "الأسر المساعدة",
+                students: "الطلاب المسجلون",
+                transparency: "الشفافية"
+            },
+            learnMore: "تعلم المزيد",
+            contactUs: "اتصل بنا"
         }
     };
 
     const t = content[language as keyof typeof content] || content.en;
 
     return (
-        <section className="relative py-28 bg-[#002B24] text-white overflow-hidden islamic-pattern">
+        <section id="hero" className="relative py-28 bg-[#002B24] text-white overflow-hidden islamic-pattern scroll-mt-20">
             {/* Elegant Gradient Orbs */}
             <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
                 <div className="absolute -top-24 -left-24 w-96 h-96 bg-[#004d40] rounded-full blur-[120px] opacity-30"></div>

@@ -1,4 +1,5 @@
 import { BookOpen, Heart, Users, ArrowRight } from 'lucide-react';
+import { leadershipData } from '../data/leadershipData';
 
 interface SectorCardsProps {
     language: string;
@@ -9,60 +10,65 @@ export function SectorCards({ language }: SectorCardsProps) {
         en: {
             title: "Our Three Sectors",
             subtitle: "Organized service through specialized initiatives",
-            qirat: {
-                name: "Qirat Sector",
-                description: "Quranic education, memorization programs, and tajweed training. We organize competitions and support Quranic learning initiatives.",
-                amir: "Amir: Mohammed Ahmadu",
-                activities: ["Quran Memorization", "Tajweed Training", "Annual Competitions", "Student Support"],
-                cta: "Learn More"
-            },
-            charity: {
-                name: "Charity Sector",
-                description: "Donation management, aid distribution, and humanitarian projects. We ensure transparency in all financial transactions.",
-                amir: "Amir: Muhajir Mohammed",
-                activities: ["Donation Tracking", "Aid Distribution", "Water Projects", "Emergency Relief"],
-                cta: "Donate Now"
-            },
-            dawa: {
-                name: "Dawa Sector",
-                description: "Islamic education, community outreach, and spreading the message of Islam through organized programs and events.",
-                amir: "Amir: Ramadan Aliyii",
-                activities: ["Islamic Education", "Community Lectures", "Youth Mentorship", "Interfaith Dialogue"],
-                cta: "Get Involved"
+            amirLabel: "Amir",
+            cta: {
+                learnMore: "Learn More",
+                donateNow: "Donate Now",
+                getInvolved: "Get Involved"
             }
         },
         am: {
             title: "የእኛ ሦስት ዘርፎች",
             subtitle: "በልዩ ተነሳሽነቶች የተደራጀ አገልግሎት",
-            qirat: {
-                name: "የቂራት ዘርፍ",
-                description: "የቁርአን ትምህርት፣ የማስታወስ ፕሮግራሞች እና የታጅዊድ ስልጠና። ውድድሮችን እናዘጋጃለን እና የቁርአን ትምህርት ተነሳሽነቶችን እንደግፋለን።",
-                amir: "አሚር፡ መሀመድ አህማዱ",
-                activities: ["የቁርአን ማስታወስ", "የታጅዊድ ስልጠና", "ዓመታዊ ውድድሮች", "የተማሪ ድጋፍ"],
-                cta: "ተጨማሪ ይወቁ"
-            },
-            charity: {
-                name: "የበጎ አድራጎት ዘርፍ",
-                description: "የልገሳ አስተዳደር፣ የእርዳታ ስርጭት እና የሰብአዊ ፕሮጀክቶች። በሁሉም የገንዘብ ግብይቶች ውስጥ ግልጽነትን እናረጋግጣለን።",
-                amir: "አሚር፡ ሙሃጂር መሀመድ",
-                activities: ["የልገሳ ክትትል", "የእርዳታ ስርጭት", "የውሃ ፕሮጀክቶች", "የአደጋ ጊዜ እርዳታ"],
-                cta: "አሁን ይለግሱ"
-            },
-            dawa: {
-                name: "የዳዋ ዘርፍ",
-                description: "እስላማዊ ትምህርት፣ የማህበረሰብ ተደራሽነት እና የእስልምና መልእክት በተደራጁ ፕሮግራሞች እና ዝግጅቶች ማሰራጨት።",
-                amir: "አሚር፡ ረመዳን አሊዪ",
-                activities: ["እስላማዊ ትምህርት", "የማህበረሰብ ንግግሮች", "የወጣቶች መምህርነት", "የሃይማኖት ውይይት"],
-                cta: "ይሳተፉ"
+            amirLabel: "አሚር",
+            cta: {
+                learnMore: "ተጨማሪ ይወቁ",
+                donateNow: "አሁን ይለግሱ",
+                getInvolved: "ይሳተፉ"
+            }
+        },
+        om: {
+            title: "Dameewwan Keenya Sadan",
+            subtitle: "Hojii qindaa'aa kutaalee dhimma addaa irratti xiyyeeffataniin",
+            amirLabel: "Amira",
+            cta: {
+                learnMore: "Bal'inaan Baradhu",
+                donateNow: "Amma Arjoomi",
+                getInvolved: "Hirmaadhu"
+            }
+        },
+        ar: {
+            title: "قطاعاتنا الثلاثة",
+            subtitle: "خدمة منظمة من خلال مبادرات متخصصة",
+            amirLabel: "الأمير",
+            cta: {
+                learnMore: "تعلم المزيد",
+                donateNow: "تبرع الآن",
+                getInvolved: "شارك معنا"
             }
         }
     };
 
     const t = content[language as keyof typeof content] || content.en;
 
+    const getLocalizedValue = (obj: any, key: string) => {
+        const langValue = obj[language];
+        if (langValue) return langValue;
+
+        const langKey = language === 'en' ? key :
+            language === 'am' ? `${key}Am` :
+                language === 'om' ? `${key}Om` :
+                    language === 'ar' ? `${key}Ar` : key;
+        return obj[langKey] || obj[key];
+    };
+
     const sectors = [
         {
-            ...t.qirat,
+            name: getLocalizedValue(leadershipData.sectors.qirat, 'name'),
+            description: getLocalizedValue(leadershipData.sectors.qirat.description, language),
+            amir: `${t.amirLabel}: ${getLocalizedValue(leadershipData.sectors.qirat.amir, 'name')}`,
+            activities: leadershipData.sectors.qirat.activities[language as keyof typeof leadershipData.sectors.qirat.activities] || leadershipData.sectors.qirat.activities.en,
+            cta: t.cta.learnMore,
             icon: BookOpen,
             color: "from-[#004d40] to-[#00695c]",
             textColor: "text-white",
@@ -70,7 +76,11 @@ export function SectorCards({ language }: SectorCardsProps) {
             link: "#qirat"
         },
         {
-            ...t.charity,
+            name: getLocalizedValue(leadershipData.sectors.charity, 'name'),
+            description: getLocalizedValue(leadershipData.sectors.charity.description, language),
+            amir: `${t.amirLabel}: ${getLocalizedValue(leadershipData.sectors.charity.amir, 'name')}`,
+            activities: leadershipData.sectors.charity.activities[language as keyof typeof leadershipData.sectors.charity.activities] || leadershipData.sectors.charity.activities.en,
+            cta: t.cta.donateNow,
             icon: Heart,
             color: "from-[#FFD700] to-[#E6C300]",
             textColor: "text-[#002B24]",
@@ -78,7 +88,11 @@ export function SectorCards({ language }: SectorCardsProps) {
             link: "#charity"
         },
         {
-            ...t.dawa,
+            name: getLocalizedValue(leadershipData.sectors.dawa, 'name'),
+            description: getLocalizedValue(leadershipData.sectors.dawa.description, language),
+            amir: `${t.amirLabel}: ${getLocalizedValue(leadershipData.sectors.dawa.amir, 'name')}`,
+            activities: leadershipData.sectors.dawa.activities[language as keyof typeof leadershipData.sectors.dawa.activities] || leadershipData.sectors.dawa.activities.en,
+            cta: t.cta.getInvolved,
             icon: Users,
             color: "from-[#004d40] to-[#00695c]",
             textColor: "text-white",
@@ -88,7 +102,7 @@ export function SectorCards({ language }: SectorCardsProps) {
     ];
 
     return (
-        <section id="sectors" className="py-20 bg-gray-50 islamic-pattern">
+        <section id="sectors" className="py-20 bg-gray-50 islamic-pattern scroll-mt-20">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <h2 className="text-[#004d40] mb-4">{t.title}</h2>
@@ -103,7 +117,7 @@ export function SectorCards({ language }: SectorCardsProps) {
                         >
                             {/* Icon */}
                             <div className={`w-16 h-16 ${sector.iconBg} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                                <sector.icon size={32} className={sector.iconBg === 'bg-[#ffd700]' ? 'text-gray-900' : 'text-white'} />
+                                <sector.icon size={32} className={sector.iconBg === 'bg-[#FFD700]' ? 'text-gray-900' : 'text-white'} />
                             </div>
 
                             {/* Title */}

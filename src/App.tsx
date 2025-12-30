@@ -164,7 +164,7 @@ export default function App() {
         <BlogSection language={currentLanguage} posts={blogPosts} />
 
         {/* About Section */}
-        <section id="about" className="py-20 bg-white islamic-pattern-overlay">
+        <section id="about" className="py-20 bg-white islamic-pattern-overlay scroll-mt-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-[#004d40] mb-6">
